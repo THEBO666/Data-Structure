@@ -1,60 +1,109 @@
-#include <stdio.h>
-#include <stdlib.h>
+#include<stdio.h>
+#include<stdlib.h>
 
-typedef struct Stack
+struct stacknode
 {
-    int data;
-    struct Stack* next;
-}Stack;
+    char data;
+    struct stacknode *next;
+};
 
-void InitStack(Stack* s)
+struct stacklist
 {
-    s->next=NULL;
-}
-Stack* createStack()
-{
-    Stack* newStack=(Stack*)malloc(sizeof(Stack));
-    newStack->next=NULL;
-    return newStack;
-}
+    struct stacknode *top;
+    int count;
+};
 
-int panduan(Stack* s)
+void push(struct stacklist *s, char c)
 {
-    return s==NULL;
-}
-
-void Push(Stack** s,int x)
-{
-    Stack* t=createStack();
-    t->data=x;
-    t->next=*s;
-    *s=t;
+    struct stacknode *p = (struct stacknode*)malloc(sizeof(struct stacknode));
+    p->data = c;
+    p->next = s->top;
+    s->top = p;
+    s->count++;
 }
 
-void Pop(Stack** s,int* y)
+void pop(struct stacklist *s)
 {
-    if(!panduan(*s))
-    {
-        Stack *t=*s;
-        *y=t->data;
-        *s=t->next;
-        free(t);
-    }
+    struct stacknode *p = s->top;
+    s->top = p->next;
+    s->count--;
+    free(p);
+}
+
+char topp(struct stacklist *s)
+{
+    return s->top->data;
 }
 
 int main()
 {
-    Stack* s=NULL;
-    int b;
-    Push(&s,10);
-    Push(&s,20);
-    Push(&s,30);
-    while(!panduan(s))
+    char c[50];
+    int j = 0;
+    struct stacklist *s = (struct stacklist*)malloc(sizeof(struct stacklist));
+    s->count = 0;
+    while (scanf("%c", &c[j]))
     {
-        Pop(&s,&b);
-        printf("%d\n",b);
+        if (c[j] == '(')
+        {
+            push(s, c[j]);
+        }
+        else if (c[j] == '{')
+        {
+            push(s, c[j]);
+        }
+        else if (c[j] == '[')
+        {
+            push(s, c[j]);
+        }
+        else if (c[j] == ')')
+        {
+            if (topp(s) == '(')
+            {
+                pop(s);
+            }
+            else
+            {
+                printf("N");
+                printf("%d", j);
+                return 0;
+            }
+        }
+        else if (c[j] == '}')
+        {
+            if (topp(s) == '{')
+            {
+                pop(s);
+            }
+            else
+            {
+                printf("N");
+                printf("%d", j);
+                return 0;
+            }
+        }
+        else if (c[j] == ']')
+        {
+            if (topp(s) == '[')
+            {
+                pop(s);
+            }
+            else
+            {
+                printf("N");
+                printf("%d", j);
+                return 0;
+            }
+        }
+        else
+        {
+
+        }
+        j++;
+        if (getchar() == '\n')
+        {
+            break;
+        }
     }
-    
+    free(s);
     return 0;
 }
-
