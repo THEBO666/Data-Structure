@@ -1,0 +1,9 @@
+
+Path   : Microsoft.PowerShell.Core\FileSystem::C:\ProgramData\Microsoft\Windows\WindowsApps
+Owner  : BUILTIN\Administrators
+Group  : NT AUTHORITY\SYSTEM
+Access : NT AUTHORITY\SYSTEM Allow  FullControl
+         BUILTIN\Administrators Allow  FullControl
+Audit  : 
+Sddl   : O:BAG:SYD:P(A;;FA;;;SY)(A;;FA;;;BA)
+

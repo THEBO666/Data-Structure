@@ -1,100 +1,56 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
 
-#define MAX 1000
-
-typedef struct Stack
+typedef struct queue
 {
-	char data[MAX];
-	int top;
-} Stack;
+	int data;
+	struct queue* next;
+}queue;
 
-void initStack(Stack *s)
+void initqueue(queue** f, queue** r)
 {
-	s->top = -1;
+	queue* t = (queue*)malloc(sizeof(queue));
+	t->next = NULL;
+	t->data=0;
+	*f = t;
+	*r = t;
 }
 
-int panduan(Stack *s)
+int pankong(queue* f, queue* r)
 {
-	if (s->top == -1)
-		return 1;
-	else
-		return 0;
+	return (f == r);
 }
 
-void Push(Stack *s, char c)
+void Push(queue** r, int x)
 {
-	if (s->top < MAX - 1)
-	{
-		s->data[++s->top] = c;
-	}
+	queue* t = (queue*)malloc(sizeof(queue));
+	queue* T = *r;
+	t->data = x;
+	t->next = NULL;
+	T->next = t;
+	*r = t;
 }
 
-void Pop(Stack *s)
+void Pop(queue** f, queue** r, int* y)
 {
-	if (!panduan(s))
-	{
-		s->top--;
-		
-	}
+	queue* t = *f;
+	*y = t->data;
+	*f = t->next;
 }
 
-char Top(Stack *s)
-{
-	if(!panduan(s))
-	{
-		return s->data[s->top];
-	}
-}
-void check(char *a)
-{
-	Stack s;
-	initStack(&s);
-	int i = 0;
-	for (i = 0; i < strlen(a); i++)
-	{
-		char c = a[i];
-		if (c == '(' || c == '[' || c == '{')
-		{
-			Push(&s, c);
-		}
-		else
-		{
-			if (c == ')' || c == ']' || c == '}')
-			{
-				if (panduan(&s))
-				{
-					printf("N%d\n", i);
-					return;
-				}
-				char ch = Top(&s);
-				if ((c == ')' && ch != '(') || (c == ']' && ch != '[') || (c == '}' && ch != '{'))
-				{
-					printf("N%d\n", i);
-					return;
-				}
-				else
-				{
-					Pop(&s);
-				}
-			}
-		}
-	}
-	if (!panduan(&s))
-	{
-		printf("N%d\n", strlen(a));
-	}
-	else
-	{
-		printf("Y\n");
-		return;
-	}
-}
 int main()
 {
-	char c[MAX];
-	scanf("%s", c);
-	check(c);
+	queue* front = NULL;
+	queue* rear = NULL;
+	initqueue(&front, &rear);
+	Push(&rear, 30);
+	Push(&rear, 20);
+	Push(&rear, 10);
+	int y = 0;
+	while (!pankong(front, rear))
+	{
+		Pop(&front, &rear, &y);
+		printf("%d\n", y);
+	}
 	return 0;
 }

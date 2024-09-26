@@ -1,0 +1,22 @@
+
+RunspaceId             : 75d0ee76-8b77-4f9f-a79b-826fdcc63574
+Name                   : MicrosoftCorporationII.WindowsSubsystemForLinux
+Publisher              : CN=Microsoft Corporation, O=Microsoft Corporation, L=Redmond, S=Washington, C=US
+PublisherId            : 8wekyb3d8bbwe
+Architecture           : X64
+ResourceId             : 
+Version                : 2.3.14.0
+PackageFamilyName      : MicrosoftCorporationII.WindowsSubsystemForLinux_8wekyb3d8bbwe
+PackageFullName        : MicrosoftCorporationII.WindowsSubsystemForLinux_2.3.14.0_x64__8wekyb3d8bbwe
+InstallLocation        : C:\Program Files\WindowsApps\MicrosoftCorporationII.WindowsSubsystemForLinux_2.3.14.0_x64__8wekyb3d8bbwe
+IsFramework            : False
+PackageUserInformation : {}
+IsResourcePackage      : False
+IsBundle               : False
+IsDevelopmentMode      : False
+NonRemovable           : False
+Dependencies           : {}
+IsPartiallyStaged      : False
+SignatureKind          : Developer
+Status                 : Ok
+
