@@ -3,7 +3,6 @@
 int main()
 {
     BTNode<int> *root = BuyNode(1);
-    
     BTNode<int> *left = BuyNode(2);
     BTNode<int> *right = BuyNode(3);
     BTNode<int> *left1 = BuyNode(4);
@@ -19,4 +18,3 @@ int main()
     PostOrder(root);
     return 0;
 }
-
