@@ -8,11 +8,12 @@
 template <class T>
 struct BTNode
 {
+
     T data;
     BTNode *left = NULL;
     BTNode *right = NULL;
     BTNode() {}
-    BTNode(T d, BTNode *l, BTNode *r) : data(d), left(l), right(r)
+    BTNode(T d) : data(d), left(nullptr), right(nullptr)
     {
     }
 };
@@ -22,10 +23,10 @@ BTNode<T> *BuyNode(T x)
 {
     BTNode<T> *newnode = new BTNode<T>;
     assert(newnode);
-    if(newnode==NULL)
+    if (newnode == NULL)
     {
         perror("malloc fail");
-        return ;
+        return nullptr;
     }
     newnode->data = x;
     newnode->left = NULL;
@@ -39,7 +40,7 @@ void PreOrder(BTNode<T> *root)
     if (root == NULL)
         return;
     std::cout << root->data << " ";
-    
+
     PreOrder(root->left);
     PreOrder(root->right);
 }
@@ -47,22 +48,43 @@ void PreOrder(BTNode<T> *root)
 template <class T>
 void InOrder(BTNode<T> *root)
 {
-    if(root == NULL)
-        return ;
+    if (root == NULL)
+        return;
     InOrder(root->left);
-    
-    std::cout<<root->data<<" ";
+
+    std::cout << root->data << " ";
     InOrder(root->right);
 }
 
 template <class T>
 void PostOrder(BTNode<T> *root)
 {
-    if(root == NULL)
-        return ;
+    if (root == NULL)
+        return;
     PostOrder(root->left);
     PostOrder(root->right);
-    
-    std::cout<<root->data<<" ";
+
+    std::cout << root->data << " ";
 }
 
+template <class T>
+int TreeSize(BTNode<T> *root)
+{
+    // if(root==nullptr)
+    //     return ;
+    // ++(*size);
+    // TreeSize(root->left,size);
+    // TreeSize(root->right,size);
+    return root == nullptr ? 0 : TreeSize(root->left) + TreeSize(root->right) + 1;
+}
+
+template <class T>
+int TreeHeight(BTNode<T> *root)
+{
+    if (root == nullptr)
+        return 0;
+    int left = TreeHeight(root->left);
+    int right = TreeHeight(root->right);
+
+    return left > right ? left + 1 : right + 1;
+}

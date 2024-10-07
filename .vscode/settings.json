@@ -43,6 +43,14 @@
         "streambuf": "cpp",
         "typeinfo": "cpp",
         "queue": "cpp",
-        "list": "cpp"
+        "list": "cpp",
+        "thread": "cpp",
+        "chrono": "cpp",
+        "ctime": "cpp",
+        "functional": "cpp",
+        "iterator": "cpp",
+        "numeric": "cpp",
+        "random": "cpp",
+        "ratio": "cpp"
     }
 }

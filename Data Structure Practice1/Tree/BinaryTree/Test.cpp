@@ -11,10 +11,11 @@ int main()
     root->right = right;
     left->left = left1;
     left->right = right1;
-    PreOrder(root);
-    std::cout << std::endl;
-    InOrder(root);
-    std::cout << std::endl;
-    PostOrder(root);
+    // PreOrder(root);
+    // std::cout << std::endl;
+    // InOrder(root);
+    // std::cout << std::endl;
+    // PostOrder(root);
+    std::cout<<TreeHeight(root);
     return 0;
 }

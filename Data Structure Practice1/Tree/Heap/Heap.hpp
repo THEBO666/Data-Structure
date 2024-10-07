@@ -50,7 +50,7 @@ struct Heap
         int parent = (child - 1) / 2;
         while (child > 0)
         {
-            if (arr[child] > arr[parent])
+            if (arr[child] < arr[parent]) //小堆
             {
                 std::swap(arr[child], arr[parent]);
                 child = parent;

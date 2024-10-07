@@ -82,6 +82,8 @@ void PostOrder(BTNode* root)
 	printf("%d ", root->data);
 }
 
+
+
 int TreeSize(BTNode* root)
 {
 	return root == NULL ? 0 : 

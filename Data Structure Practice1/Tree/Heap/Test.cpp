@@ -3,11 +3,11 @@
 #include <random>
 #include <time.h>
 #include "Heap.hpp"
-#include <pthread.h>
+#include <thread>
+
 
 void TestTopk(int k)
 {
-    pthread_t tid;
     Heap<int> hp(k);
     FILE *fp = fopen("data.txt", "r");
     if(fp==NULL)
@@ -31,6 +31,7 @@ void TestTopk(int k)
             hp.AdjustDown(hp.a,k,0);
         }
     }
+
     for(int i=0;i<k;i++)
     {
         std::cout<<hp.a[i]<<" ";
@@ -56,7 +57,11 @@ int main()
         fprintf(fp,"%d\n",x);
     }
     fclose(fp);*/
-    TestTopk(10);
-    
+    // TestTopk(10);
+    int arr[]={1,5,9,7,8,6,3};
+    Heap<int> hp;
+    hp.AdjustUp(arr,6);
+    for(int i=0;i<7;i++)
+        std::cout<<arr[i]<<" ";
     return 0;
 }
