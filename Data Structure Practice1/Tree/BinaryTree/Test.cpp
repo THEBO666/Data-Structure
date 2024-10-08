@@ -16,6 +16,6 @@ int main()
     // InOrder(root);
     // std::cout << std::endl;
     // PostOrder(root);
-    std::cout<<TreeHeight(root);
+    std::cout<<TreeKLevel(root,2);
     return 0;
 }

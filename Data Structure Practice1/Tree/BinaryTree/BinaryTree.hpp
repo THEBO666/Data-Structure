@@ -88,3 +88,13 @@ int TreeHeight(BTNode<T> *root)
 
     return left > right ? left + 1 : right + 1;
 }
+template <class T>
+int TreeKLevel(BTNode<T> *root,int k)
+{
+    if(root==nullptr)
+        return 0;
+    if(k==1)
+        return 1;
+    // 第k层结点个数为k-1的左右子树结点的和
+    return TreeKLevel(root->left,k-1)+TreeKLevel(root->right,k-1);
+}
