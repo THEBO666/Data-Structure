@@ -1,9 +1,0 @@
-[experimental]
-autoMemoryReclaim=gradual # 可以在 gradual 、dropcache 、disabled 之间选择
-networkingMode=mirrored
-dnsTunneling=true
-firewall=true
-autoProxy=true
-sparseVhd=true
-hostAddressLoopback=true
-
