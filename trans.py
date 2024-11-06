@@ -1,27 +1,25 @@
-from PIL import Image
+import numpy as np
+import matplotlib.pyplot as plt
+from scipy.interpolate import make_interp_spline
 
-def convert_image_to_pixels(image_path):
-    # 打开图像
-    img = Image.open(image_path)
-    # 调整图像大小
-    img = img.resize((800, 600))
-    # 将图像转换为RGB格式
-    img = img.convert('RGB')
-    # 获取图像的所有像素值
-    pixels = list(img.getdata())
-    # 将RGB格式转换为BGR格式
-    pixels = [(b, g, r) for (r, g, b) in pixels]
-    return pixels
+# 数据输入
+frequency = np.array([750, 775, 800, 840, 960, 900, 940, 950, 960, 970,
+                     980, 990, 1000, 1100, 1200, 1300, 1400, 1500, 1600, 1700])
+voltage = np.array([1, 1, 1.2, 1.6, 2, 3.2, 4.6, 4.8, 4.9, 5,
+                    4.8, 4.2, 4, 1.6, 1, 1, 1, 1, 1, 1])
 
-def save_pixels_to_c_header(pixels, header_path):
-    # 开始写入C头文件
-    with open(header_path, 'w') as f:
-        f.write('const unsigned char gImage_pic_800_600[] = {\n')
-        for pixel in pixels:
-            # 将每个像素的BGR值转换为无符号字符，并写入文件
-            f.write('{}, {}, {},\n'.format(pixel[0], pixel[1], pixel[2]))
-        f.write('};\n')
+# 使用样条插值创建平滑曲线
+spl = make_interp_spline(frequency, voltage, k=3)  # k=3表示三次样条插值
+frequency_new = np.linspace(frequency.min(), frequency.max(), 500)
+voltage_new = spl(frequency_new)
 
-# 使用函数
-pixels = convert_image_to_pixels('3.jpg')
-save_pixels_to_c_header(pixels, 'gImage_my_pic.h')
+# 绘图
+plt.figure(figsize=(8, 6))
+plt.plot(frequency_new, voltage_new, label="平滑曲线", color='b')
+plt.scatter(frequency, voltage, color='r', zorder=5, label="原始数据点")  # 原始数据点
+plt.title("DDS输出信号频率与输出电压幅值关系图")
+plt.xlabel("频率 (KHz)")
+plt.ylabel("输出电压幅值 (V)")
+plt.legend()
+plt.grid(True)
+plt.show()

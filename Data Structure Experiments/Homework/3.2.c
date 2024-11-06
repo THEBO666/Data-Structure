@@ -1,27 +1,33 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
-int cmp(void *e1, void *e2)
+
+
+int cmp(const void *a, const void *b)    
 {
-	if (*(int *)e1 - *(int *)e2 > 0)
-		return 1;
-	else if (*(int *)e1 - *(int *)e2 < 0)
-		return -1;
-	else
-		return 0;
+    return *(int*)a - *(int*)b;
 }
+
+
 
 int main()
 {
-	int a[20];
-	int i = 0;
-	while (1)
+	int a[30] = {0};
+	int n;
+	scanf("%d", &n);
+	for (int i = 0; i < n; i++)
 	{
-		scanf("%d", a[i++]);
-		if (getchar() != ' ')
-			break;
+		scanf("%d", &a[i]);
 	}
-	qsort(a, i, sizeof(a), cmp);
-
+	int sum=0;
+	for(int i = 0 ;i<n-1;i++)
+	{
+		qsort(a+i,n-i,sizeof(int),cmp);
+		a[i+1]+=a[i];
+		sum+=a[i+1];
+	}
+	qsort(a, n, sizeof(int), cmp);
+	printf("%d\n",sum);
 	return 0;
 }

@@ -120,3 +120,15 @@ int TreeHeight(Node *root)
     int right=TreeHeight(root->right);
     return left>right?left+1:right+1;
 }
+
+bool DestroyTree(Node* root){//@@@
+    if(root == nullptr){
+        return false;
+    }
+    DestroyTree(root->left);
+    DestroyTree(root->right);
+    free(root);//@@@
+    root=nullptr;
+    return true;
+}
+
