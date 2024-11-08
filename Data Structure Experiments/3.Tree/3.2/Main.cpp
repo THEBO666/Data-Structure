@@ -1,7 +1,7 @@
 #include <iostream>
 #include <string>
 #include <stack>
-
+#include <sstream>
 /*
 * 四则运算计算器
 * 这里使用的思路类似于前中后缀表达式（波兰式、逆波兰式）
@@ -15,11 +15,13 @@ typedef struct TreeNode{
 }Node;
 Node *CreateExpressionTree(std::string &str)
 {
-    
+
 }
 int main()
-{
-
+{   
+    std::string str;
+    std::cin>>str;
+    
 
 
     return 0;

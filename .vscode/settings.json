@@ -52,6 +52,9 @@
         "numeric": "cpp",
         "random": "cpp",
         "ratio": "cpp",
-        "stdio.h": "c"
+        "stdio.h": "c",
+        "complex": "cpp",
+        "map": "cpp",
+        "iomanip": "cpp"
     }
 }
