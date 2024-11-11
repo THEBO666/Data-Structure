@@ -3,11 +3,11 @@
 
 int main()
 {
-    Graph_Matrix<char,int,true> g1("ABC",3);
-    g1.addEdge('A','B',5);
-    g1.addEdge('A','C',3);
-    g1.addEdge('A','D',2);
+    Graph_Matrix<char,int,false> g1("ABCD",4);
+    g1.addEdge('A','B',1);
     g1.addEdge('B','C',3);
+    g1.addEdge('A','C',2);
+    g1.addEdge('B','D',3);
     g1.addEdge('C','D',1);
     g1.Print();
     g1.BFS('A');

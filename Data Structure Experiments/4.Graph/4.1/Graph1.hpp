@@ -1,7 +1,6 @@
 #pragma once
 #include <iostream>
 #include <vector>
-#include <map>
 #include <unordered_map>
 #include <queue>
 #include <string>
@@ -30,6 +29,17 @@ public:
             e.resize(n, INT_MAX);
         }
     }
+    // 以邻接矩阵初始化
+    Graph_Matrix(const std::vector<std::vector<W>> &m)
+    {
+        for (int i = 0; i < m.size(); i++)
+        {
+            for (int j = 0; j < m[0].size(); j++)
+            {
+                _matrix[i][j] = m[i][j];
+            }
+        }
+    }
     int getVertexIndex(const V &v)
     {
         auto ret = _vIndex.find(v);
@@ -53,6 +63,7 @@ public:
             _matrix[dsti][srci] = w;
         }
     }
+
     void Print()
     {
         // 打印顶点和下标映射关系
@@ -61,7 +72,8 @@ public:
         {
             std::cout << _vertex[i] << "-" << i << " ";
         }
-        std::cout << std::endl<<std::endl;
+        std::cout << std::endl
+                  << std::endl;
         std::cout << "邻接矩阵:\n";
         std::cout << "  ";
         for (size_t i = 0; i < _vertex.size(); ++i)
@@ -84,7 +96,7 @@ public:
         }
         std::cout << std::endl;
         // 打印所有的边
-        std::cout<<"所有边的情况:\n";
+        std::cout << "所有边的情况:\n";
         for (size_t i = 0; i < _matrix.size(); ++i)
         {
             for (size_t j = 0; j < _matrix[i].size(); ++j)
@@ -97,7 +109,7 @@ public:
             std::cout << std::endl;
         }
         // 打印每个顶点的度
-        std::cout<<"所有顶点的度:\n";
+        std::cout << "所有顶点的度:\n";
         if (Direction == false) // 无向图
         {
             for (int i = 0; i < _vertex.size(); i++)
@@ -134,40 +146,43 @@ public:
             }
         }
     }
-    void BFS(const V& src) //从哪一个开始BFS
+    void BFS(const V &src) // 从哪一个开始BFS
     {
-        int srci=getVertexIndex(src);
-        std::vector<bool> visited(_vertex.size(),false);
+        int srci = getVertexIndex(src);
+        std::vector<bool> visited(_vertex.size(), false);
         std::queue<int> q;
         q.push(srci);
-        visited[srci]=true;
-        std::cout<<srci<<src<<" ";
-        while(!q.empty())
+        visited[srci] = true;
+        std::cout << srci << src << " ";
+        while (!q.empty())
         {
             int font = q.front();
             q.pop();
-            for(int i=0;i<_vertex.size();i++)
+            for (int i = 0; i < _vertex.size(); i++)
             {
-                if(_matrix[font][i]!=INT_MAX&&visited[i]==false)
+                if (_matrix[font][i] != INT_MAX && visited[i] == false)
                 {
-                    visited[i]=true;
-                    std::cout<<i<<_vertex[i]<<" ";
+                    visited[i] = true;
+                    std::cout << i << _vertex[i] << " ";
                     q.push(i);
                 }
             }
-            std::cout<<std::endl;
+            std::cout << std::endl;
         }
-
     }
 
-    void DFS()
+    void DFS(const V &src)
     {
-        
     }
-    
+
+    W Prim()
+    {
+           
+    }
+
 private:
     // std::vector<std::pair<V,int>> _vIndex;
-    std::unordered_map<V, int> _vIndex;
+    std::unordered_map<V, int> _vIndex;  // 下标索引
     std::vector<V> _vertex;              // 顶点
     std::vector<std::vector<W>> _matrix; // 矩阵存储
 };
