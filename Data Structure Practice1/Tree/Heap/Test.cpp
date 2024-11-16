@@ -60,7 +60,7 @@ int main()
     // TestTopk(10);
     int arr[]={1,5,9,7,8,6,3};
     Heap<int> hp;
-    hp.AdjustUp(arr,6);
+    hp.HeapSort(arr,7);
     for(int i=0;i<7;i++)
         std::cout<<arr[i]<<" ";
     return 0;

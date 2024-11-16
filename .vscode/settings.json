@@ -55,6 +55,8 @@
         "stdio.h": "c",
         "complex": "cpp",
         "map": "cpp",
-        "iomanip": "cpp"
+        "iomanip": "cpp",
+        "condition_variable": "cpp",
+        "mutex": "cpp"
     }
 }
