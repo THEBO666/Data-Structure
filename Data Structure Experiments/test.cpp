@@ -1,56 +1,53 @@
-#include<iostream>
-#include<stdio.h>
+#include <iostream>
+#include <vector>
+#include <cmath>
 using namespace std;
 
-typedef struct LTree
-{
-    int data; // 改为 int
-    struct LTree *lchild;
-    struct LTree *rchild;
-} LTree, *Tree;
+typedef long long ll;
+const ll MOD = 1e9 + 7;
 
-void push(Tree &T, int a)
-{
-    if (T == NULL)
-    {
-		throw 1;
-        /*T = new LTree;
-        T->data = a;
-        T->lchild = NULL;
-        T->rchild = NULL;*/
-    }
-    else
-    {
-        if (a < T->data)
-        {
-            push(T->lchild, a);
-        }
-        else if (a > T->data)
-        {
-            push(T->rchild, a);
+// 矩阵乘法
+vector<vector<ll>> matMul(const vector<vector<ll>> &A, const vector<vector<ll>> &B) {
+    vector<vector<ll>> C(2, vector<ll>(2));
+    for (int i = 0; i < 2; ++i) {
+        for (int j = 0; j < 2; ++j) {
+            C[i][j] = 0;
+            for (int k = 0; k < 2; ++k) {
+                C[i][j] = (C[i][j] + A[i][k] * B[k][j]) % MOD;
+            }
         }
     }
+    return C;
 }
 
-void first(Tree &T)
-{
-    if (T == NULL)
-    {
-        return;
+// 矩阵快速幂
+vector<vector<ll>> matPow(vector<vector<ll>> base, ll exp) {
+    vector<vector<ll>> result = {{1, 0}, {0, 1}}; // 单位矩阵
+    while (exp > 0) {
+        if (exp % 2 == 1) {
+            result = matMul(result, base);
+        }
+        base = matMul(base, base);
+        exp /= 2;
     }
-    cout << T->data << " ";
-    first(T->lchild);
-    first(T->rchild);
+    return result;
 }
 
-int main()
-{
-    Tree T = NULL; // 初始化为NULL
-    for (int i = 0; i < 4; i++)
-    {
-        int a;
-        cin >> a;
-        push(T, a);
-    }
-    first(T);
+// 计算 f_n
+ll computeFn(ll a, ll b, ll n) {
+    if (n == 1) return a;
+    if (n == 2) return b;
+
+    vector<vector<ll>> F = {{1, 1}, {1, 0}};
+    vector<vector<ll>> result = matPow(F, n - 2);
+
+    // f_n = result[0][0] * b + result[0][1] * a
+    return (result[0][0] * b % MOD + result[0][1] * a % MOD) % MOD;
+}
+
+int main() {
+    double res=0;
+    for(int i=0;i<100;i++)
+        res=sin(i);
+    return 0;
 }

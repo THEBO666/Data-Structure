@@ -29,7 +29,7 @@ void TestSort()
     int *a8 = (int *)malloc(sizeof(int) * N);
     for (int i = 0; i < N; ++i)
     {
-        a1[i] = rand() % N;
+        a1[i] = rand();
         a2[i] = a3[i] = a4[i] = a5[i] = a6[i] = a7[i] = a8[i] = a1[i];
     }
     int begin1 = clock();

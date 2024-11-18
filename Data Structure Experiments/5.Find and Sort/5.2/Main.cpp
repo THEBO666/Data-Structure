@@ -101,7 +101,7 @@ int main()
         {20240028, "Felix", 420, 137},
         {20240029, "Walt", 445, 125},
         {20240030, "Rose", 445, 138},
-        {20240031, "Omar", 444, 122},
+        {20240031, "Omar", 445, 137},
         {20240032, "Quincy", 355, 73},
         {20240033, "Xena", 363, 92},
         {20240034, "Omar", 438, 132},
@@ -139,8 +139,6 @@ int main()
                   << std::setw(10) << students[i].totalScore
                   << std::setw(12) << students[i].majorScore << std::endl;
     }
-
-    return 0;
 
     return 0;
 }

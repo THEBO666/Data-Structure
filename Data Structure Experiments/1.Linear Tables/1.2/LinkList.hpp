@@ -55,8 +55,9 @@ public:
             }
         }
     }
-    void insert(int pos, T x) // 从head之后开始，开始为0，向元素之后位置插入
+    void insert(int pos, T x) // 从head之后开始，开始为0，向元素之前位置插入
     {
+        assert(pos >= 0 && pos <= _size);
         Node *cur = head;
         while (pos != 0)
         {
@@ -64,8 +65,21 @@ public:
             pos--;
         }
         Node *newnode = new Node(x);
-        newnode->next = cur->next;
-        cur->next = newnode;
+        if(head==tail)
+        {
+            tail->next=newnode;
+            tail=newnode;
+        }
+        else if(cur==tail)
+        {
+            cur->next=newnode;
+            tail=newnode;
+        }
+        else
+        {
+            newnode->next=cur->next;
+            cur->next = newnode;
+        }
         _size++;
     }
     size_t find(T x) // 发现打印i+1，没有是0
@@ -85,15 +99,23 @@ public:
     }
     void erase(size_t pos) // 从head之后，head之后为0
     {
-        assert(pos <= _size - 1);
+        assert(pos <= _size);
         Node *cur = head;
         while (pos--)
         {
             cur = cur->next;
         }
         Node *temp = cur->next;
-        cur->next = cur->next->next;
-        delete temp;
+        if (temp == tail)
+        {
+            tail = cur;
+        }
+        else
+        {
+            cur->next = cur->next->next;
+        }
+        free(temp);
+        temp = nullptr;
         _size--;
     }
     void pop_back()
@@ -112,20 +134,21 @@ public:
     }
     void Delete_Interval(int min, int max)
     {
-        Node *cur=head->next;
-        while(cur->next!=nullptr)
+        Node *cur = head;
+        int i=0;
+        while (cur->next= nullptr)
         {
-            T data=cur->next->val;
-            if(data>=min&&data<=max)
+            T data = cur->next->val;
+            if (data >= min && data <= max)
             {
-                Node *temp=cur->next;
-                cur->next=cur->next->next;
+                Node *temp = cur->next;
+                cur->next = cur->next->next;
                 delete temp;
+                _size--;
             }
-            if(data>max)
+            if (data > max)
                 break;
         }
-
     }
     size_t size()
     {
