@@ -5,9 +5,10 @@
 #include <algorithm>
 #include <iomanip>
 #include <ctime>
+#include "LinkQueue.hpp"  //自己在实验2写的链栈
 
 // 基数排序
-#define K 6 // 关键字个数 500150
+#define K 3 // 关键字个数 百位、十位、个位
 #define Radix 10
 
 struct Student
@@ -16,16 +17,17 @@ struct Student
     std::string name; // 姓名
     int totalScore;   // 总成绩
     int majorScore;   // 专业课
-    int cmpScore;
     Student() {}
     // 比较思路如下：
-    // 将总成绩x1000+专业课成绩进行基数排序即可
+    // 进行两次分发回收，第一次以专业课，这样的话总分排序时，专业课高的一定在前面
     Student(int id, const std::string n, int t, int m) : stuid(id), name(n), totalScore(t), majorScore(m)
     {
-        cmpScore = totalScore * 1000 + majorScore;
     }
 };
-std::queue<Student> Q[Radix];
+
+LinkQueue<Student> Q[Radix];
+// 基数排序的实现
+// 即使用队列将每一次分发的进行存储，每一次分发按照高位到低位进行
 int GetKey(int value, int k)
 {
     int key = 0;
@@ -37,15 +39,22 @@ int GetKey(int value, int k)
     }
     return key;
 }
-void Distribute(std::vector<Student> &a, int left, int right, int k)
+void DistributeMajor(std::vector<Student> &a, int left, int right, int k)
 {
     for (int i = left; i < right; i++)
     {
-        int key = GetKey(a[i].cmpScore, k);
+        int key = GetKey(a[i].majorScore, k);
         Q[key].push(a[i]);
     }
 }
-
+void DistributeTotal(std::vector<Student> &a, int left, int right, int k)
+{
+    for (int i = left; i < right; i++)
+    {
+        int key = GetKey(a[i].totalScore, k);
+        Q[key].push(a[i]);
+    }
+}
 void Collect(std::vector<Student> &a)
 {
     int k = 0;
@@ -63,7 +72,12 @@ void RadixSort(std::vector<Student> &a, int left, int right)
 {
     for (int i = 0; i < K; i++)
     {
-        Distribute(a, left, right, i);
+        DistributeMajor(a, left, right, i);
+        Collect(a);
+    }
+    for (int i = 0; i < K; i++)
+    {
+        DistributeTotal(a, left, right, i);
         Collect(a);
     }
 }
@@ -120,7 +134,7 @@ int main()
         {20240047, "Frank", 433, 149},
         {20240048, "Vanessa", 436, 147},
         {20240049, "Shane", 321, 73},
-        {20240050, "Damon", 321, 72}};
+        {20240050, "Damon", 462, 149}};
 
     RadixSort(students, 0, students.size());
 

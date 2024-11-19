@@ -1,10 +1,7 @@
 #include <iostream>
-#include <string>
-#include <vector>
 #include <stack>
+#include <string>
 #include <algorithm>
-
-using namespace std;
 
 int Operator_Priority(char op)
 {
@@ -22,7 +19,66 @@ int Operator_Priority(char op)
 }
 bool isNum(char ch)
 {
-    return ('0' <= ch && ch <= '9') || ch == '.';
+    return '0' <= ch && ch <= '9';
+}
+std::string in_to_post_expression(const std::string &s)
+{
+    std::stack<char> op;
+    std::string res;
+    for (int i = 0; i < s.size();)
+    {
+        if (s[i] == ' ') // 跳过空格
+        {
+            i++;
+            continue;
+        }
+        else if (isNum(s[i]))
+        {
+            // 将数字写入结果字符串
+            while (i < s.size() && (isNum(s[i]) || s[i] == '.'))
+            {
+                res.push_back(s[i++]);
+            }
+            res.push_back(' ');
+        }
+        else
+        {
+            if (s[i] == '(')
+            {
+                op.push(s[i]);
+            }
+            else if (s[i] == ')')
+            {
+                while (!op.empty() && op.top() != '(')
+                {
+                    res.push_back(op.top());
+                    res.push_back(' ');
+                    op.pop();
+                }
+                op.pop(); // 弹出 '('
+            }
+            else
+            {
+                // 对于运算符
+                while (!op.empty() && Operator_Priority(s[i]) <= Operator_Priority(op.top()))
+                {
+                    res.push_back(op.top());
+                    res.push_back(' ');
+                    op.pop();
+                }
+                op.push(s[i]);
+            }
+            i++;
+        }
+    }
+    // 将栈中剩余的运算符全部弹出
+    while (!op.empty())
+    {
+        res.push_back(op.top());
+        res.push_back(' ');
+        op.pop();
+    }
+    return res;
 }
 
 std::string in_to_pre_expression(const std::string &s)
@@ -82,74 +138,4 @@ std::string in_to_pre_expression(const std::string &s)
     
     std::reverse(res.begin(), res.end());
     return res;
-}
-// (3+4)×5-6
-// x -
-// 3 4 + 5 x - 6
-
-std::string in_to_post_expression(std::string s)
-{
-    std::stack<char> s1;
-    std::string res;
-    for (int i = 0; i < s.size();)
-    {
-        if (s[i] == ' ') // 跳过空格
-        {
-            i++;
-            continue;
-        }
-        else if (isNum(s[i]))
-        {
-            // 将数字写入结果字符串
-            while (i < s.size() && (isNum(s[i]) || s[i] == '.'))
-            {
-                res.push_back(s[i++]);
-            }
-            res.push_back(' ');
-        }
-        else
-        {
-            if (s[i] == '(')
-            {
-                s1.push(s[i]);
-            }
-            else if (s[i] == ')')
-            {
-                while (!s1.empty() && s1.top() != '(')
-                {
-                    res.push_back(s1.top());
-                    res.push_back(' ');
-                    s1.pop();
-                }
-                s1.pop(); // 弹出 '('
-            }
-            else
-            {
-                // 对于运算符
-                while (!s1.empty() && Operator_Priority(s[i]) <= Operator_Priority(s1.top()))
-                {
-                    res.push_back(s1.top());
-                    res.push_back(' ');
-                    s1.pop();
-                }
-                s1.push(s[i]);
-            }
-            i++;
-        }
-    }
-    // 将栈中剩余的运算符全部弹出
-    while (!s1.empty())
-    {
-        res.push_back(s1.top());
-        res.push_back(' ');
-        s1.pop();
-    }
-    return res;
-}
-
-int main()
-{
-    std::string str;
-    std::getline(std::cin, str);
-    std::cout << in_to_pre_expression(str);
 }

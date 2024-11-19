@@ -11,5 +11,6 @@ int main()
     g1.addEdge('C','D',1);
     g1.Print();
     g1.BFS('A');
+    g1.Prim();
     return 0;
 }

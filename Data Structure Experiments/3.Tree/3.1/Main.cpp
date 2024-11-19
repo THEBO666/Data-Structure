@@ -85,7 +85,6 @@ int main()
                     std::cout<<"Fatal Destory"<<std::endl;
                 }
             break;
-
         }
     }
     // system("pause");

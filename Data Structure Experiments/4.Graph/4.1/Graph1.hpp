@@ -177,7 +177,59 @@ public:
 
     W Prim()
     {
-           
+        if (Direction)
+        {
+            std::cerr << "Prim's algorithm is not applicable to directed graphs." << std::endl;
+            return W();
+        }
+
+        int n = _vertex.size();
+        std::vector<W> key(n, INT_MAX);
+        std::vector<int> parent(n, -1);
+        std::vector<bool> inMST(n, false);
+
+        key[0] = 0;
+        W totalWeight = 0;
+
+        for (int count = 0; count < n - 1; count++)
+        {
+            int u = minKey(key, inMST);
+            inMST[u] = true;
+
+            for (int v = 0; v < n; v++)
+            {
+                if (_matrix[u][v] != INT_MAX && inMST[v] == false && _matrix[u][v] < key[v])
+                {
+                    key[v] = _matrix[u][v];
+                    parent[v] = u;
+                }
+            }
+        }
+
+        std::cout << "Edges in MST:\n";
+        for (int i = 1; i < n; i++)
+        {
+            std::cout << _vertex[parent[i]] << " - " << _vertex[i] << " : " << _matrix[i][parent[i]] << std::endl;
+            totalWeight += _matrix[i][parent[i]];
+        }
+
+        return totalWeight;
+    }
+    int minKey(const std::vector<W> &key, const std::vector<bool> &inMST)
+    {
+        W min = INT_MAX;
+        int min_index;
+
+        for (int v = 0; v < key.size(); v++)
+        {
+            if (inMST[v] == false && key[v] < min)
+            {
+                min = key[v];
+                min_index = v;
+            }
+        }
+
+        return min_index;
     }
 
 private:
