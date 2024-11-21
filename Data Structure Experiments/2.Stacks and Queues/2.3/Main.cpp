@@ -5,7 +5,7 @@
 int main()
 {
     SeqQueue<int> q;
-    std::cout << "这里为顺序存储(循环队列)实现队列, 请输入:";
+    std::cout << "这里为顺序存储实现队列, 请输入:";
     while (true)
     {
         int x;

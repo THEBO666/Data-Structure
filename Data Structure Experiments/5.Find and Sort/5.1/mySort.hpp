@@ -68,7 +68,7 @@ void SelectSort(T *a, int n)
                 minIndex = j;
             }
             if (minIndex != i)
-                std::swap(a[minIndex], a[j]);
+                std::swap(a[minIndex], a[i]);
         }
     }
 }

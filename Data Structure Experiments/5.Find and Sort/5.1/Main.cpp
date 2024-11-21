@@ -18,7 +18,7 @@ int cmp(const void *a, const void *b)
 void TestSort()
 {
     srand(time(0));
-    const int N = 10000;
+    const int N = 100000;
     int *a1 = (int *)malloc(sizeof(int) * N);
     int *a2 = (int *)malloc(sizeof(int) * N);
     int *a3 = (int *)malloc(sizeof(int) * N);

@@ -14,8 +14,12 @@ int main()
     lt.push(15);
     lt.push(17);
     lt.push(23);
+    lt.push(23);
+    lt.push(29);
+    lt.push(12);
+    lt.push(9);
     lt.PrintList();
-    lt.Delete_Interval(10,30);
+    lt.Delete_Interval(10,20);
     lt.PrintList();
     return 0;
 }

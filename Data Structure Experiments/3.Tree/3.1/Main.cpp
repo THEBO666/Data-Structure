@@ -3,7 +3,6 @@
 #include <vector>
 #include <cstdlib>
 #include <conio.h>
-#include <sys/types.h>
 #include <cstdio>
 
 

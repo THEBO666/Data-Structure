@@ -135,8 +135,7 @@ public:
     void Delete_Interval(int min, int max)
     {
         Node *cur = head;
-        int i=0;
-        while (cur->next= nullptr)
+        while (cur->next != nullptr)
         {
             T data = cur->next->val;
             if (data >= min && data <= max)
@@ -146,10 +145,13 @@ public:
                 delete temp;
                 _size--;
             }
-            if (data > max)
-                break;
+            else
+            {
+                cur = cur->next;
+            }
         }
     }
+
     size_t size()
     {
         return _size;

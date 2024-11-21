@@ -2,7 +2,8 @@
 #include <iostream>
 #include <vector>
 #include <unordered_map>
-
+#include <queue>
+#include <algorithm>
 template <class W>
 struct LinkEdge
 {
@@ -121,9 +122,165 @@ public:
                 std::cout << "顶点 " << _vertex[i] << " 的入度为 " << in_degree[i] << "，出度为 " << out_degree << std::endl;
             }
         }
+        std::cout << std::endl;
+    }
+
+    void BFS(const V &src)
+    {
+        int srci = getVertexIndex(src);
+        std::vector<bool> visited(_vertex.size(), false);
+        std::queue<int> q;
+        std::cout << "The graph from point " << _vertex[srci] << "'s BFS: " << std::endl;
+        q.push(srci);
+        visited[srci] = true;
+        while (!q.empty())
+        {
+            int font = q.front();
+            q.pop();
+            std::cout << _vertex[font] << " ";
+            for (Edge *cur = _linkTable[font]; cur != nullptr; cur = cur->next)
+            {
+                if (!visited[cur->_dstIndex])
+                {
+                    visited[cur->_dstIndex] = true;
+                    q.push(cur->_dstIndex);
+                }
+            }
+        }
+        std::cout << std::endl
+                  << std::endl;
+    }
+    void DFS(const V &src)
+    {
+        int srci = getVertexIndex(src);
+        std::cout << "The graph from point " << _vertex[srci] << "'s DFS: " << std::endl;
+        std::vector<bool> visited(_vertex.size(), false);
+        _DFS(srci, visited);
+        std::cout << std::endl
+                  << std::endl;
+    }
+    void Prim(const V &src)
+    {
+        int srci = getVertexIndex(src);
+        std::vector<W> key(_vertex.size(), INT_MAX);
+        std::vector<int> parent(_vertex.size(), -1);
+        std::vector<bool> inMST(_vertex.size(), false);
+        key[srci] = 0;
+
+        for (int count = 0; count < _vertex.size() - 1; ++count)
+        {
+            // 找到不在MST中且key值最小的顶点
+            int u = -1;
+            W minKey = INT_MAX;
+            for (int i = 0; i < _vertex.size(); ++i)
+            {
+                if (!inMST[i] && key[i] < minKey)
+                {
+                    minKey = key[i];
+                    u = i;
+                }
+            }
+
+            if (u == -1)
+                break; // 如果没有找到，跳出循环
+
+            inMST[u] = true;
+
+            // 更新邻接节点的key值
+            for (Edge *cur = _linkTable[u]; cur != nullptr; cur = cur->next)
+            {
+                if (!inMST[cur->_dstIndex] && cur->_w < key[cur->_dstIndex])
+                {
+                    key[cur->_dstIndex] = cur->_w;
+                    parent[cur->_dstIndex] = u;
+                }
+            }
+        }
+
+        // 打印最小生成树
+        std::cout << "Prim's MST starting from " << src << ": " << std::endl;
+        for (int i = 0; i < _vertex.size(); ++i)
+        {
+            if (i != srci && parent[i] != -1)
+            {
+                std::cout << _vertex[parent[i]] << " - " << _vertex[i] << " : " << key[i] << std::endl;
+            }
+        }
+        std::cout<<std::endl;
+    }
+    W Dijkstra(const V &src, const V &dst)
+    {
+        int srci = getVertexIndex(src);
+        int dsti = getVertexIndex(dst);
+        std::vector<W> dist(_vertex.size(), INT_MAX);
+        std::vector<int> parent(_vertex.size(), -1); // 记录路径
+        std::vector<bool> visited(_vertex.size(), false);
+        dist[srci] = 0;
+
+        for (int i = 0; i < _vertex.size() - 1; i++)
+        {
+            // 找到未访问结点距离最小值
+            int flag = -1;
+            W minDist = INT_MAX;
+            for (int j = 0; j < _vertex.size(); j++)
+            {
+                if (!visited[j] && dist[j] < minDist)
+                {
+                    minDist = dist[j];
+                    flag = j;
+                }
+            }
+            if (flag == -1)
+                break;
+            visited[flag] = true;
+            for (Edge *cur = _linkTable[flag]; cur != nullptr; cur = cur->next)
+            {
+                if (!visited[cur->_dstIndex] && dist[flag] + cur->_w < dist[cur->_dstIndex])
+                {
+                    dist[cur->_dstIndex] = dist[flag] + cur->_w;
+                    parent[cur->_dstIndex] = flag;
+                }
+            }
+        }
+
+        // 打印路径
+        std::cout << "Dijkstra's shortest path from " << src << " to " << dst << ": ";
+        if (dist[dsti] == INT_MAX)
+        {
+            std::cout << "No path found." << std::endl;
+            return INT_MAX;
+        }
+
+        std::vector<int> path;
+        for (int v = dsti; v != -1; v = parent[v])
+        {
+            path.push_back(v);
+        }
+        std::reverse(path.begin(), path.end());
+
+        for (int i = 0; i < path.size(); ++i)
+        {
+            std::cout << _vertex[path[i]];
+            if (i != path.size() - 1)
+            {
+                std::cout << " -> ";
+            }
+        }
+        std::cout << std::endl;
+        return dist[dsti];
     }
 
 private:
+    void _DFS(int srci, std::vector<bool> &visited)
+    {
+        visited[srci] = true;
+        std::cout << _vertex[srci] << " ";
+        for (Edge *cur = _linkTable[srci]; cur != nullptr; cur = cur->next)
+        {
+            if (!visited[cur->_dstIndex])
+                _DFS(cur->_dstIndex, visited);
+        }
+    }
     std::unordered_map<V, int> _vIndex;
     std::vector<V> _vertex;
     std::vector<Edge *> _linkTable;
