@@ -115,7 +115,7 @@ public:
             std::cout << std::endl;
         }
         // 打印每个顶点的度
-        std::cout << "所有顶点的度:\n";
+        std::cout << "\n所有顶点的度:\n";
         if (Direction == false) // 无向图
         {
             for (int i = 0; i < _vertex.size(); i++)
@@ -291,99 +291,6 @@ public:
         std::cout << std::endl;
 
         return dist[dsti];
-    }
-    W TravelAll(const V &src)
-    {
-        int N = _vertex.size();
-        int src_index = getVertexIndex(src);
-        typedef std::tuple<W, int, int> State; // (total_distance, current_node, visited_nodes_bitmask)
-
-        std::vector<std::vector<W>> dist(N, std::vector<W>(1 << N, INT_MAX));
-        std::vector<std::vector<std::pair<int, int>>> parent(N, std::vector<std::pair<int, int>>(1 << N, {-1, -1}));
-
-        dist[src_index][1 << src_index] = 0;
-
-        // Min-heap priority queue
-        std::priority_queue<State, std::vector<State>, std::greater<State>> pq;
-        pq.push({0, src_index, 1 << src_index});
-
-        while (!pq.empty())
-        {
-            auto [total_distance, current_node, visited_nodes_bitmask] = pq.top();
-            pq.pop();
-
-            // If we've already found a better way to this state, skip it
-            if (total_distance > dist[current_node][visited_nodes_bitmask])
-                continue;
-
-            // If all nodes have been visited
-            if (visited_nodes_bitmask == (1 << N) - 1)
-            {
-                // Found the minimal traversal length
-                break;
-            }
-
-            for (int neighbor = 0; neighbor < N; ++neighbor)
-            {
-                if (_matrix[current_node][neighbor] != INT_MAX)
-                {
-                    W new_total_distance = total_distance + _matrix[current_node][neighbor];
-                    int new_visited_nodes_bitmask = visited_nodes_bitmask | (1 << neighbor);
-
-                    if (new_total_distance < dist[neighbor][new_visited_nodes_bitmask])
-                    {
-                        dist[neighbor][new_visited_nodes_bitmask] = new_total_distance;
-                        parent[neighbor][new_visited_nodes_bitmask] = {current_node, visited_nodes_bitmask};
-                        pq.push({new_total_distance, neighbor, new_visited_nodes_bitmask});
-                    }
-                }
-            }
-        }
-
-        // Find the minimal total distance among all ending nodes
-        W min_total_distance = INT_MAX;
-        int ending_node = -1;
-        for (int node = 0; node < N; ++node)
-        {
-            if (dist[node][(1 << N) - 1] < min_total_distance)
-            {
-                min_total_distance = dist[node][(1 << N) - 1];
-                ending_node = node;
-            }
-        }
-
-        if (ending_node == -1)
-        {
-            std::cout << "No path found to visit all nodes." << std::endl;
-            return INT_MAX;
-        }
-
-        // Reconstruct the path
-        std::vector<int> path;
-        int current_node = ending_node;
-        int visited_nodes_bitmask = (1 << N) - 1;
-
-        while (current_node != -1)
-        {
-            path.push_back(current_node);
-            auto [prev_node, prev_bitmask] = parent[current_node][visited_nodes_bitmask];
-            current_node = prev_node;
-            visited_nodes_bitmask = prev_bitmask;
-        }
-
-        std::reverse(path.begin(), path.end());
-
-        // Print the path
-        std::cout << "Shortest path visiting all nodes starting from " << src << ":\n";
-        for (size_t i = 0; i < path.size(); ++i)
-        {
-            std::cout << _vertex[path[i]];
-            if (i != path.size() - 1)
-                std::cout << " -> ";
-        }
-        std::cout << std::endl;
-
-        return min_total_distance;
     }
 
 private:

@@ -167,32 +167,30 @@ public:
         std::vector<bool> inMST(_vertex.size(), false);
         key[srci] = 0;
 
-        for (int count = 0; count < _vertex.size() - 1; ++count)
-        {
-            // 找到不在MST中且key值最小的顶点
-            int u = -1;
-            W minKey = INT_MAX;
-            for (int i = 0; i < _vertex.size(); ++i)
-            {
-                if (!inMST[i] && key[i] < minKey)
-                {
-                    minKey = key[i];
-                    u = i;
-                }
-            }
+        // 优先队列，存储 (key值, 顶点索引)
+        std::priority_queue<std::pair<W, int>, std::vector<std::pair<W, int>>, std::greater<std::pair<W, int>>> pq;
+        pq.push({0, srci});
 
-            if (u == -1)
-                break; // 如果没有找到，跳出循环
+        while (!pq.empty())
+        {
+            int u = pq.top().second;
+            pq.pop();
+
+            if (inMST[u])
+                continue;
 
             inMST[u] = true;
 
-            // 更新邻接节点的key值
             for (Edge *cur = _linkTable[u]; cur != nullptr; cur = cur->next)
             {
-                if (!inMST[cur->_dstIndex] && cur->_w < key[cur->_dstIndex])
+                int v = cur->_dstIndex;
+                W weight = cur->_w;
+
+                if (!inMST[v] && weight < key[v])
                 {
-                    key[cur->_dstIndex] = cur->_w;
-                    parent[cur->_dstIndex] = u;
+                    key[v] = weight;
+                    parent[v] = u;
+                    pq.push({key[v], v});
                 }
             }
         }
@@ -206,8 +204,9 @@ public:
                 std::cout << _vertex[parent[i]] << " - " << _vertex[i] << " : " << key[i] << std::endl;
             }
         }
-        std::cout<<std::endl;
+        std::cout << std::endl;
     }
+
     W Dijkstra(const V &src, const V &dst)
     {
         int srci = getVertexIndex(src);
@@ -217,28 +216,30 @@ public:
         std::vector<bool> visited(_vertex.size(), false);
         dist[srci] = 0;
 
-        for (int i = 0; i < _vertex.size() - 1; i++)
+        // 优先队列，存储 (距离, 顶点索引)
+        std::priority_queue<std::pair<W, int>, std::vector<std::pair<W, int>>, std::greater<std::pair<W, int>>> pq;
+        pq.push({0, srci});
+
+        while (!pq.empty())
         {
-            // 找到未访问结点距离最小值
-            int flag = -1;
-            W minDist = INT_MAX;
-            for (int j = 0; j < _vertex.size(); j++)
+            int u = pq.top().second;
+            pq.pop();
+
+            if (visited[u])
+                continue;
+
+            visited[u] = true;
+
+            for (Edge *cur = _linkTable[u]; cur != nullptr; cur = cur->next)
             {
-                if (!visited[j] && dist[j] < minDist)
+                int v = cur->_dstIndex;
+                W weight = cur->_w;
+
+                if (!visited[v] && dist[u] + weight < dist[v])
                 {
-                    minDist = dist[j];
-                    flag = j;
-                }
-            }
-            if (flag == -1)
-                break;
-            visited[flag] = true;
-            for (Edge *cur = _linkTable[flag]; cur != nullptr; cur = cur->next)
-            {
-                if (!visited[cur->_dstIndex] && dist[flag] + cur->_w < dist[cur->_dstIndex])
-                {
-                    dist[cur->_dstIndex] = dist[flag] + cur->_w;
-                    parent[cur->_dstIndex] = flag;
+                    dist[v] = dist[u] + weight;
+                    parent[v] = u;
+                    pq.push({dist[v], v});
                 }
             }
         }
