@@ -9,7 +9,7 @@ template <class T>
 class Sqlist
 {
 public:
-    Sqlist():data(nullptr),_size(0),capacity(0)
+    Sqlist() : data(nullptr), _size(0), capacity(0)
     {
     }
     void InitSqlist()
@@ -41,12 +41,12 @@ public:
         }
         return 0; // 失败返回0
     }
-    void insert(size_t pos,T x) // 这里设置为向后插入，即在pos之前
+    void insert(size_t pos, T x) // 这里设置为向后插入，即在pos之前
     {
         assert(pos <= _size);
         int end = _size - 1;
-        pos+=1;
-        while (end>=0&&end >=pos)
+        pos += 1;
+        while (end >= 0 && end >= pos)
         {
             data[end + 1] = data[end];
             --end;
@@ -65,6 +65,7 @@ public:
         }
         _size--;
     }
+    
     T &operator[](size_t pos)
     {
         assert(pos <= _size);
@@ -78,6 +79,7 @@ public:
     {
         delete data;
     }
+
 private:
     void check_capacity()
     {

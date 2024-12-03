@@ -8,7 +8,7 @@ vector<int> make_next(const string &s)
 {
     int i = 0, j = -1;
     vector<int> next(s.size() + 1, 0); // Initialize the vector with the correct size
-    next[0] = -1; // Set the first element to -1
+    next[0] = -1;                      // Set the first element to -1
     while (i < s.size())
     {
         if (j == -1 || s[i] == s[j])
@@ -26,7 +26,7 @@ int KMP(const string &s, const string &t)
 {
     int i = 0, j = 0;
     vector<int> next = make_next(t);
-    while (i < s.size() && j <(int)t.size())
+    while (i < s.size() && j < (int)t.size())
     {
         if (j == -1 || s[i] == t[j]) // Fix the logic error here
         {
@@ -65,6 +65,6 @@ int ViolentMatch(string &s, string &t)
 int main()
 {
     string s1 = "babcabab", s2 = "abab";
-    cout << KMP(s1, s2) << endl;
-    // cout<<ViolentMatch(s1,s2)<<endl;
+    ///cout << KMP(s1, s2) << endl;
+    cout<<ViolentMatch(s1,s2)<<endl;
 }
