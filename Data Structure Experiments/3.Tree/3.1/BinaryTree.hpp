@@ -62,42 +62,42 @@ Node *CreateTree(std::vector<int> order)
 
 void PreOrder(Node *root)
 {
-    if (root==nullptr)
-        return ;
-    std::cout<<root->val<<" ";
+    if (root == nullptr)
+        return;
+    std::cout << root->val << " ";
     PreOrder(root->left);
     PreOrder(root->right);
 }
 void InOrder(Node *root)
 {
-    if (root==nullptr)
-        return ;
+    if (root == nullptr)
+        return;
     InOrder(root->left);
-    std::cout<<root->val<<" ";
+    std::cout << root->val << " ";
     InOrder(root->right);
 }
 void PostOrder(Node *root)
 {
-    if(root==nullptr)
-        return ;
+    if (root == nullptr)
+        return;
     PostOrder(root->left);
     PostOrder(root->right);
-    std::cout<<root->val<<" ";
+    std::cout << root->val << " ";
 }
 void LevelOrder(Node *root)
-{    
-    if(root==nullptr)
-        return ;
-    std::queue<Node*> q;
+{
+    if (root == nullptr)
+        return;
+    std::queue<Node *> q;
     q.push(root);
-    while(!q.empty())
+    while (!q.empty())
     {
-        std::cout<<q.front()->val<<" ";
-        if(q.front()->left)
+        std::cout << q.front()->val << " ";
+        if (q.front()->left)
         {
             q.push(q.front()->left);
         }
-        if(q.front()->right)
+        if (q.front()->right)
         {
             q.push(q.front()->right);
         }
@@ -105,30 +105,30 @@ void LevelOrder(Node *root)
     }
 }
 
-int TreeSize(Node *root) //树的大小吧（结点）
+int TreeSize(Node *root) // 树的大小吧（结点）
 {
-    return root==nullptr?0:TreeSize(root->left)+
-                           TreeSize(root->right)+1;
+    return root == nullptr ? 0 : TreeSize(root->left) + TreeSize(root->right) + 1;
 }
 
 // 树的高度
 int TreeHeight(Node *root)
 {
-    if(root==nullptr)
+    if (root == nullptr)
         return 0;
-    int left=TreeHeight(root->left);
-    int right=TreeHeight(root->right);
-    return left>right?left+1:right+1;
+    int left = TreeHeight(root->left);
+    int right = TreeHeight(root->right);
+    return left > right ? left + 1 : right + 1;
 }
 
-bool DestroyTree(Node* root){//@@@
-    if(root == nullptr){
+bool DestroyTree(Node *root)
+{ //@@@
+    if (root == nullptr)
+    {
         return false;
     }
     DestroyTree(root->left);
     DestroyTree(root->right);
-    free(root);//@@@
-    root=nullptr;
+    free(root); //@@@
+    root = nullptr;
     return true;
 }
-

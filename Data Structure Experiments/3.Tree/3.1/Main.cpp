@@ -4,7 +4,7 @@
 #include <cstdlib>
 #include <conio.h>
 #include <cstdio>
-
+volatile int a=10;
 
 int main()
 {
