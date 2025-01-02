@@ -1,6 +1,13 @@
 {
     "configurations": [
         {
+            "type": "java",
+            "name": "TEST",
+            "request": "launch",
+            "mainClass": "TEST",
+            "projectName": "Data-Structure_be219dc9"
+        },
+        {
             "name": "C/C++: gcc.exe 生成和调试活动文件",
             "type": "cppdbg",
             "request": "launch",

@@ -22,8 +22,9 @@
 #include <cstdlib>
 #include <ctime>
 #include <iomanip>
+#include <algorithm>
 using namespace std;
- 
+
 #define lson l, mid, rt << 1
 #define rson mid + 1, r, rt << 1 | 1
 typedef long long ll;
@@ -39,6 +40,7 @@ const double PI = acos (-1.0);
     转换为后缀表达式： 得到：1 2 + 5 * 1 + 4 / =
     计算后缀表达式：得到：4.00
 */
+
 bool is_digit(char ch)  {
 	return '0' <= ch && ch <= '9';
 }

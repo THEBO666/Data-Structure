@@ -26,11 +26,11 @@ void InsertSort(T *a, int n)
 }
 
 template <class T>
-void ShellSort(T *a, int n,int gap)
+void ShellSort(T *a, int n, int gap)
 {
-    //int gap = 100001;
-    if(gap%2==0)
-        gap+=1;
+    // int gap = 100001;
+    if (gap % 2 == 0)
+        gap += 1;
     while (gap > 1)
     {
         gap = gap / 3 + 1;
@@ -124,6 +124,7 @@ void BubbleSort(T *a, int n)
             break;
     }
 }
+
 template <class T>
 int minIndex(T *a, int left, int right) // 快速排序三数取中优化法
 {
